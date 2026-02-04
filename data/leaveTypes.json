@@ -1,0 +1,56 @@
+[
+  {
+    "id": "LT-001",
+    "name": "Annual Leave",
+    "defaultDays": 18,
+    "requiresDocument": false,
+    "maxConsecutiveDays": 30,
+    "advanceNoticeDays": 3,
+    "status": "active"
+  },
+  {
+    "id": "LT-002",
+    "name": "Sick Leave",
+    "defaultDays": 12,
+    "requiresDocument": true,
+    "maxConsecutiveDays": 14,
+    "advanceNoticeDays": 0,
+    "status": "active"
+  },
+  {
+    "id": "LT-003",
+    "name": "Casual Leave",
+    "defaultDays": 8,
+    "requiresDocument": false,
+    "maxConsecutiveDays": 5,
+    "advanceNoticeDays": 3,
+    "status": "active"
+  },
+  {
+    "id": "LT-004",
+    "name": "Maternity Leave",
+    "defaultDays": 90,
+    "requiresDocument": true,
+    "maxConsecutiveDays": 90,
+    "advanceNoticeDays": 30,
+    "status": "active"
+  },
+  {
+    "id": "LT-005",
+    "name": "Paternity Leave",
+    "defaultDays": 10,
+    "requiresDocument": true,
+    "maxConsecutiveDays": 10,
+    "advanceNoticeDays": 7,
+    "status": "active"
+  },
+  {
+    "id": "LT-006",
+    "name": "Study Leave",
+    "defaultDays": 30,
+    "requiresDocument": true,
+    "maxConsecutiveDays": 365,
+    "advanceNoticeDays": 60,
+    "status": "active"
+  }
+]

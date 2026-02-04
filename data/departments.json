@@ -1,0 +1,38 @@
+[
+  {
+    "id": "DEPT-001",
+    "code": "CS",
+    "name": "Computer Science",
+    "faculty": "Faculty of Science",
+    "hodId": "EMP-2024-002",
+    "totalStaff": 24,
+    "status": "active"
+  },
+  {
+    "id": "DEPT-002",
+    "code": "MATH",
+    "name": "Mathematics",
+    "faculty": "Faculty of Science",
+    "hodId": "EMP-2024-010",
+    "totalStaff": 18,
+    "status": "active"
+  },
+  {
+    "id": "DEPT-003",
+    "code": "PHY",
+    "name": "Physics",
+    "faculty": "Faculty of Science",
+    "hodId": "EMP-2024-020",
+    "totalStaff": 20,
+    "status": "active"
+  },
+  {
+    "id": "DEPT-004",
+    "code": "CHEM",
+    "name": "Chemistry",
+    "faculty": "Faculty of Science",
+    "hodId": "EMP-2024-030",
+    "totalStaff": 16,
+    "status": "active"
+  }
+]

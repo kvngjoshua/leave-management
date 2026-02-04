@@ -1,0 +1,178 @@
+[
+  {
+    "id": "EMP-2024-001",
+    "name": "John Doe",
+    "email": "john.doe@university.edu.ng",
+    "phone": "+234 801 234 5678",
+    "department": "DEPT-001",
+    "position": "Lecturer II",
+    "gradeLevel": "12",
+    "joinDate": "2020-01-15",
+    "gender": "male",
+    "leaveBalance": {
+      "annual": {
+        "total": 18,
+        "used": 5,
+        "remaining": 13
+      },
+      "sick": {
+        "total": 12,
+        "used": 0,
+        "remaining": 12
+      },
+      "casual": {
+        "total": 8,
+        "used": 2,
+        "remaining": 6
+      },
+      "maternity": {
+        "total": 0,
+        "used": 0,
+        "remaining": 0
+      },
+      "paternity": {
+        "total": 10,
+        "used": 0,
+        "remaining": 10
+      },
+      "study": {
+        "total": 30,
+        "used": 0,
+        "remaining": 30
+      }
+    },
+    "status": "active"
+  },
+  {
+    "id": "EMP-2024-002",
+    "name": "Dr. Sarah Johnson",
+    "email": "sarah.j@university.edu.ng",
+    "phone": "+234 802 345 6789",
+    "department": "DEPT-001",
+    "position": "Senior Lecturer / HOD",
+    "gradeLevel": "14",
+    "joinDate": "2018-03-10",
+    "gender": "female",
+    "leaveBalance": {
+      "annual": {
+        "total": 18,
+        "used": 3,
+        "remaining": 15
+      },
+      "sick": {
+        "total": 12,
+        "used": 0,
+        "remaining": 12
+      },
+      "casual": {
+        "total": 8,
+        "used": 1,
+        "remaining": 7
+      },
+      "maternity": {
+        "total": 90,
+        "used": 0,
+        "remaining": 90
+      },
+      "paternity": {
+        "total": 0,
+        "used": 0,
+        "remaining": 0
+      },
+      "study": {
+        "total": 30,
+        "used": 0,
+        "remaining": 30
+      }
+    },
+    "status": "active"
+  },
+  {
+    "id": "EMP-2024-003",
+    "name": "Prof. Michael Okafor",
+    "email": "m.okafor@university.edu.ng",
+    "phone": "+234 803 456 7890",
+    "department": "DEPT-001",
+    "position": "Professor / Dean",
+    "gradeLevel": "15",
+    "joinDate": "2015-08-20",
+    "gender": "male",
+    "leaveBalance": {
+      "annual": {
+        "total": 18,
+        "used": 0,
+        "remaining": 18
+      },
+      "sick": {
+        "total": 12,
+        "used": 0,
+        "remaining": 12
+      },
+      "casual": {
+        "total": 8,
+        "used": 0,
+        "remaining": 8
+      },
+      "maternity": {
+        "total": 0,
+        "used": 0,
+        "remaining": 0
+      },
+      "paternity": {
+        "total": 10,
+        "used": 0,
+        "remaining": 10
+      },
+      "study": {
+        "total": 30,
+        "used": 0,
+        "remaining": 30
+      }
+    },
+    "status": "active"
+  },
+  {
+    "id": "EMP-2024-004",
+    "name": "Mrs. Chioma Okonkwo",
+    "email": "hr@university.edu.ng",
+    "phone": "+234 804 567 8901",
+    "department": "HR",
+    "position": "HR Manager",
+    "gradeLevel": "13",
+    "joinDate": "2019-05-15",
+    "gender": "female",
+    "leaveBalance": {
+      "annual": {
+        "total": 18,
+        "used": 4,
+        "remaining": 14
+      },
+      "sick": {
+        "total": 12,
+        "used": 2,
+        "remaining": 10
+      },
+      "casual": {
+        "total": 8,
+        "used": 3,
+        "remaining": 5
+      },
+      "maternity": {
+        "total": 90,
+        "used": 0,
+        "remaining": 90
+      },
+      "paternity": {
+        "total": 0,
+        "used": 0,
+        "remaining": 0
+      },
+      "study": {
+        "total": 30,
+        "used": 0,
+        "remaining": 30
+      }
+    },
+    "status": "active"
+  }
+]

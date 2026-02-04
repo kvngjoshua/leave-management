@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPHERE - Dean Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .navbar-user {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-role {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid white;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .dashboard-header {
+            margin-bottom: 30px;
+        }
+
+        .dashboard-header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid;
+        }
+
+        .stat-card.pending { border-left-color: #ffa726; }
+        .stat-card.approved { border-left-color: #66bb6a; }
+        .stat-card.rejected { border-left-color: #ef5350; }
+        .stat-card.faculty { border-left-color: #667eea; }
+
+        .stat-label {
+            font-size: 13px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .stat-unit {
+            font-size: 14px;
+            color: #999;
+            margin-left: 5px;
+        }
+
+        .tabs {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .tab-buttons {
+            display: flex;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .tab-btn:hover {
+            background-color: #f8f9fa;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 25px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-controls select,
+        .filter-controls input {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background-color: #f8f9fa;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 15px;
+            border-top: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-hod-approved {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .status-approved {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-rejected {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        .action-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 5px;
+            transition: all 0.3s;
+        }
+
+        .btn-approve {
+            background-color: #66bb6a;
+            color: white;
+        }
+
+        .btn-approve:hover {
+            background-color: #4caf50;
+            transform: translateY(-1px);
+        }
+
+        .btn-reject {
+            background-color: #ef5350;
+            color: white;
+        }
+
+        .btn-reject:hover {
+            background-color: #f44336;
+            transform: translateY(-1px);
+        }
+
+        .btn-view {
+            background-color: #667eea;
+            color: white;
+        }
+
+        .btn-view:hover {
+            background-color: #5568d3;
+            transform: translateY(-1px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 800px;
+            margin: 50px auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            opacity: 0.8;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .detail-section {
+            margin-bottom: 25px;
+        }
+
+        .detail-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .detail-group {
+            margin-bottom: 15px;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 15px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 187, 106, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef5350 0%, #e53935 100%);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(239, 83, 80, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .alert-box {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .alert-info {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            border-left: 4px solid #1565c0;
+        }
+
+        .alert-success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border-left: 4px solid #2e7d32;
+        }
+
+        .alert-warning {
+            background-color: #fff3e0;
+            color: #f57c00;
+            border-left: 4px solid #f57c00;
+        }
+
+        .approval-timeline {
+            margin: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .timeline-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+
+        .timeline-icon.approved {
+            background-color: #66bb6a;
+            color: white;
+        }
+
+        .timeline-icon.pending {
+            background-color: #ffa726;
+            color: white;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .timeline-detail {
+            font-size: 13px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tab-buttons {
+                flex-wrap: wrap;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 10px 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">🎓 Leave Management System</div>
+        <div class="navbar-user">
+            <div class="user-info">
+                <div class="user-name">Prof. Michael Okafor</div>
+                <div class="user-role">Dean | Faculty of Science</div>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Dean Dashboard</h1>
+            <p>Final approval for leave requests across all departments in your faculty.</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card pending">
+                <div class="stat-label">Awaiting Final Approval</div>
+                <div class="stat-value">7<span class="stat-unit">requests</span></div>
+            </div>
+            <div class="stat-card approved">
+                <div class="stat-label">Approved This Month</div>
+                <div class="stat-value">28<span class="stat-unit">requests</span></div>
+            </div>
+            <div class="stat-card rejected">
+                <div class="stat-label">Rejected This Month</div>
+                <div class="stat-value">3<span class="stat-unit">requests</span></div>
+            </div>
+            <div class="stat-card faculty">
+                <div class="stat-label">Total Faculty Staff</div>
+                <div class="stat-value">156<span class="stat-unit">members</span></div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="switchTab('pending')">Pending Final Approval</button>
+                <button class="tab-btn" onclick="switchTab('approved')">Approved</button>
+                <button class="tab-btn" onclick="switchTab('rejected')">Rejected</button>
+                <button class="tab-btn" onclick="switchTab('all')">All Requests</button>
+            </div>
+
+            <div id="pendingTab" class="tab-content active">
+                <div class="section-header">
+                    <h2 class="section-title">Requests Awaiting Final Approval</h2>
+                    <div class="filter-controls">
+                        <select id="deptFilter">
+                            <option value="all">All Departments</option>
+                            <option value="cs">Computer Science</option>
+                            <option value="math">Mathematics</option>
+                            <option value="physics">Physics</option>
+                            <option value="chemistry">Chemistry</option>
+                        </select>
+                        <select id="typeFilter">
+                            <option value="all">All Leave Types</option>
+                            <option value="annual">Annual Leave</option>
+                            <option value="sick">Sick Leave</option>
+                            <option value="casual">Casual Leave</option>
+                        </select>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Department</th>
+                            <th>Leave Type</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Days</th>
+                            <th>HOD Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>John Doe</td>
+                            <td>Computer Science</td>
+                            <td>Annual Leave</td>
+                            <td>2025-02-10</td>
+                            <td>2025-02-14</td>
+                            <td>5</td>
+                            <td><span class="status-badge status-hod-approved">HOD Approved</span></td>
+                            <td>
+                                <button class="action-btn btn-view" onclick="viewDetails(1)">View</button>
+                                <button class="action-btn btn-approve" onclick="approveLeave(1)">Approve</button>
+                                <button class="action-btn btn-reject" onclick="rejectLeave(1)">Reject</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Jane Smith</td>
+                            <td>Mathematics</td>
+                            <td>Sick Leave</td>
+                            <td>2025-01-20</td>
+                            <td>2025-01-22</td>
+                            <td>3</td>
+                            <td><span class="status-badge status-hod-approved">HOD Approved</span></td>
+                            <td>
+                                <button class="action-btn btn-view" onclick="viewDetails(2)">View</button>
+                                <button class="action-btn btn-approve" onclick="approveLeave(2)">Approve</button>
+                                <button class="action-btn btn-reject" onclick="rejectLeave(2)">Reject</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Dr. Emmanuel Nweke</td>
+                            <td>Physics</td>
+                            <td>Annual Leave</td>
+                            <td>2025-02-15</td>
+                            <td>2025-02-21</td>
+                            <td>7</td>
+                            <td><span class="status-badge status-hod-approved">HOD Approved</span></td>
+                            <td>
+                                <button class="action-btn btn-view" onclick="viewDetails(3)">View</button>
+                                <button class="action-btn btn-approve" onclick="approveLeave(3)">Approve</button>
+                                <button class="action-btn btn-reject" onclick="rejectLeave(3)">Reject</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Dr. Amina Ibrahim</td>
+                            <td>Chemistry</td>
+                            <td>Study Leave</td>
+                            <td>2025-03-01</td>
+                            <td>2025-03-30</td>
+                            <td>30</td>
+                            <td><span class="status-badge status-hod-approved">HOD Approved</span></td>
+                            <td>
+                                <button class="action-btn btn-view" onclick="viewDetails(4)">View</button>
+                                <button class="action-btn btn-approve" onclick="approveLeave(4)">Approve</button>
+                                <button class="action-btn btn-reject" onclick="rejectLeave(4)">Reject</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="approvedTab" class="tab-content">
+                <div class="section-header">
+                    <h2 class="section-title">Approved Leave Requests</h2>
+                    <div class="filter-controls">
+                        <input type="date" id="dateFrom">
+                        <input type="date" id="dateTo">
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Department</th>
+                            <th>Leave Type</th>
+                            <th>Start Date</th>
+                            <th>Days</th>
+                            <th>Approved On</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Alice Johnson</td>
+                            <td>Computer Science</td>
+                            <td>Annual Leave</td>
+                            <td>2025-01-10</td>
+                            <td>5</td>
+                            <td>2025-01-08</td>
+                            <td>
+                                <button class="action-btn btn-view" onclick="viewDetails(5)">View</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="rejectedTab" class="tab-content">
+                <div class="section-header">
+                    <h2 class="section-title">Rejected Leave Requests</h2>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Department</th>
+                            <th>Leave Type</th>
+                            <th>Start Date</th>
+                            <th>Days</th>
+                            <th>Rejected On</th>
+                            <th>Reason</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Robert Lee</td>
+                            <td>Mathematics</td>
+                            <td>Casual Leave</td>
+                            <td>2024-12-20</td>
+                            <td>2</td>
+                            <td>2024-12-19</td>
+                            <td>Critical semester period</td>
+                            <td>
+                                <button class="action-btn btn-view" onclick="viewDetails(6)">View</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="allTab" class="tab-content">
+                <div class="section-header">
+                    <h2 class="section-title">All Leave Requests</h2>
+                    <div class="filter-controls">
+                        <input type="text" placeholder="Search employee...">
+                        <select>
+                            <option value="all">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Department</th>
+                            <th>Leave Type</th>
+                            <th>Start Date</th>
+                            <th>Days</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>John Doe</td>
+                            <td>Computer Science</td>
+                            <td>Annual</td>
+                            <td>2025-02-10</td>
+                            <td>5</td>
+                            <td><span class="status-badge status-hod-approved">HOD Approved</span></td>
+                            <td>
+                                <button class="action-btn btn-view" onclick="viewDetails(1)">View</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Details Modal -->
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Leave Request Details</h2>
+                <button class="close-btn" onclick="closeModal('detailsModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="alert-box alert-info">
+                    <strong>Request ID:</strong> LR-2025-001 | <strong>Status:</strong> Awaiting Dean Approval
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-title">📋 Employee Information</div>
+                    <div class="detail-grid">
+                        <div class="detail-group">
+                            <div class="detail-label">Employee Name</div>
+                            <div class="detail-value">John Doe</div>
+                        </div>
+                        <div class="detail-group">
+                            <div class="detail-label">Employee ID</div>
+                            <div class="detail-value">EMP-2024-001</div>
+                        </div>
+                        <div class="detail-group">
+                            <div class="detail-label">Department</div>
+                            <div class="detail-value">Computer Science</div>
+                        </div>
+                        <div class="detail-group">
+                            <div class="detail-label">Position</div>
+                            <div class="detail-value">Lecturer II</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-title">📅 Leave Details</div>
+                    <div class="detail-grid">
+                        <div class="detail-group">
+                            <div class="detail-label">Leave Type</div>
+                            <div class="detail-value">Annual Leave</div>
+                        </div>
+                        <div class="detail-group">
+                            <div class="detail-label">Total Days</div>
+                            <div class="detail-value">5 days</div>
+                        </div>
+                        <div class="detail-group">
+                            <div class="detail-label">Start Date</div>
+                            <div class="detail-value">February 10, 2025</div>
+                        </div>
+                        <div class="detail-group">
+                            <div class="detail-label">End Date</div>
+                            <div class="detail-value">February 14, 2025</div>
+                        </div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-label">Reason for Leave</div>
+                        <div class="detail-value">Family vacation and personal matters. Will be available on phone for urgent matters.</div>
+                    </div>
+                    <div class="detail-grid">
+                        <div class="detail-group">
+                            <div class="detail-label">Leave Balance Before</div>
+                            <div class="detail-value">18 days</div>
+                        </div>
+                        <div class="detail-group">
+                            <div class="detail-label">Leave Balance After</div>
+                            <div class="detail-value">13 days</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-title">✅ Approval Timeline</div>
+                    <div class="approval-timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-icon approved">✓</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Employee Applied</div>
+                                <div class="timeline-detail">John Doe submitted request on Jan 15, 2025</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon approved">✓</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">HOD Approved</div>
+                                <div class="timeline-detail">Dr. Sarah Johnson approved on Jan 16, 2025<br>
+                                <em>Comments: Approved. Coverage arranged.</em></div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon pending">⏳</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Dean Approval - Pending</div>
+                                <div class="timeline-detail">Awaiting your final approval</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="btn btn-primary" onclick="approveLeave(1)">Approve Request</button>
+                    <button class="btn btn-danger" onclick="rejectLeave(1)">Reject Request</button>
+                    <button class="btn btn-secondary" onclick="closeModal('detailsModal')">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Approval Modal -->
+    <div id="approvalModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="actionTitle">Final Approval</h2>
+                <button class="close-btn" onclick="closeModal('approvalModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="alert-box alert-success" id="actionWarning">
+                    You are about to give final approval to this leave request. Once approved, the employee will be notified and HR will process the leave.
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Employee</div>
+                    <div class="detail-value">John Doe (EMP-2024-001)</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Leave Period</div>
+                    <div class="detail-value">Feb 10, 2025 - Feb 14, 2025 (5 days)</div>
+                </div>
+                <div class="form-group">
+                    <label for="comments">Comments/Remarks</label>
+                    <textarea id="comments" placeholder="Add any comments or remarks (optional)"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-primary" id="confirmBtn" onclick="confirmAction()">Confirm Final Approval</button>
+                    <button class="btn btn-secondary" onclick="closeModal('approvalModal')">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentLeaveId = null;
+        let currentAction = null;
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function viewDetails(id) {
+            currentLeaveId = id;
+            document.getElementById('detailsModal').style.display = 'block';
+        }
+
+        function approveLeave(id) {
+            currentLeaveId = id;
+            currentAction = 'approve';
+            document.getElementById('actionTitle').textContent = 'Final Approval';
+            document.getElementById('actionWarning').className = 'alert-box alert-success';
+            document.getElementById('actionWarning').textContent = 'You are about to give final approval to this leave request. Once approved, the employee will be notified and HR will process the leave.';
+            document.getElementById('confirmBtn').className = 'btn btn-primary';
+            document.getElementById('confirmBtn').textContent = 'Confirm Final Approval';
+            closeModal('detailsModal');
+            document.getElementById('approvalModal').style.display = 'block';
+        }
+
+        function rejectLeave(id) {
+            currentLeaveId = id;
+            currentAction = 'reject';
+            document.getElementById('actionTitle').textContent = 'Reject Leave Request';
+            document.getElementById('actionWarning').className = 'alert-box alert-warning';
+            document.getElementById('actionWarning').textContent = 'You are about to reject this leave request. This will override the HOD approval. Please provide a detailed reason for rejection.';
+            document.getElementById('confirmBtn').className = 'btn btn-danger';
+            document.getElementById('confirmBtn').textContent = 'Confirm Rejection';
+            closeModal('detailsModal');
+            document.getElementById('approvalModal').style.display = 'block';
+        }
+
+        function confirmAction() {
+            const comments = document.getElementById('comments').value;
+            
+            if (currentAction === 'reject' && !comments.trim()) {
+                alert('⚠️ Please provide a reason for rejection.');
+                return;
+            }
+
+            if (currentAction === 'approve') {
+                alert('✅ FINAL APPROVAL GRANTED!\n\nThe leave request has been fully approved.\n\n📧 Notifications sent to:\n- Employee\n- HOD\n- HR Department\n\nHR will now process this leave in the system.');
+            } else {
+                alert('❌ LEAVE REQUEST REJECTED\n\nThe leave request has been rejected at Dean level.\n\n📧 Notifications sent to:\n- Employee (with reason)\n- HOD\n\nThe employee and HOD have been notified of your decision.');
+            }
+
+            closeModal('approvalModal');
+            document.getElementById('comments').value = '';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = 'login.html';
+            }
+        }
+
+        window.onclick = function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
+            }
+        }
+
+        // Filter functions
+        document.getElementById('deptFilter')?.addEventListener('change', function(e) {
+            console.log('Filtering by department:', e.target.value);
+        });
+
+        document.getElementById('typeFilter')?.addEventListener('change', function(e) {
+            console.log('Filtering by leave type:', e.target.value);
+        });
+    </script>
+</body>
+</html>

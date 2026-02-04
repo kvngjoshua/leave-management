@@ -1,0 +1,52 @@
+[
+  {
+    "id": "USR-001",
+    "employeeId": "EMP-2024-001",
+    "email": "john.doe@university.edu.ng",
+    "password": "$2b$10$tROeYY8fcrJzRAtFrYqu6umBglOLo40wwt.zg3LELYTyUPfIfTTz2",
+    "role": "employee",
+    "status": "active",
+    "lastLogin": null,
+    "createdAt": "2026-01-22T21:01:05.905Z"
+  },
+  {
+    "id": "USR-002",
+    "employeeId": "EMP-2024-002",
+    "email": "sarah.j@university.edu.ng",
+    "password": "$2b$10$tROeYY8fcrJzRAtFrYqu6umBglOLo40wwt.zg3LELYTyUPfIfTTz2",
+    "role": "hod",
+    "status": "active",
+    "lastLogin": null,
+    "createdAt": "2026-01-22T21:01:05.908Z"
+  },
+  {
+    "id": "USR-003",
+    "employeeId": "EMP-2024-003",
+    "email": "m.okafor@university.edu.ng",
+    "password": "$2b$10$tROeYY8fcrJzRAtFrYqu6umBglOLo40wwt.zg3LELYTyUPfIfTTz2",
+    "role": "dean",
+    "status": "active",
+    "lastLogin": null,
+    "createdAt": "2026-01-22T21:01:05.908Z"
+  },
+  {
+    "id": "USR-004",
+    "employeeId": "EMP-2024-004",
+    "email": "hr@university.edu.ng",
+    "password": "$2b$10$tROeYY8fcrJzRAtFrYqu6umBglOLo40wwt.zg3LELYTyUPfIfTTz2",
+    "role": "hr",
+    "status": "active",
+    "lastLogin": null,
+    "createdAt": "2026-01-22T21:01:05.908Z"
+  },
+  {
+    "id": "USR-005",
+    "employeeId": "EMP-2024-005",
+    "email": "admin@university.edu.ng",
+    "password": "$2b$10$tROeYY8fcrJzRAtFrYqu6umBglOLo40wwt.zg3LELYTyUPfIfTTz2",
+    "role": "admin",
+    "status": "active",
+    "lastLogin": null,
+    "createdAt": "2026-01-22T21:01:05.908Z"
+  }
+]
